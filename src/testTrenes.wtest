@@ -1,0 +1,61 @@
+import trenes.*
+
+test "Peso máximo de una Locomotora"{
+	var locomotora1 = new Locomotora()
+	locomotora1.peso(1000)
+	locomotora1.arrastreUtil(11000)
+	assert.equals(12000,locomotora1.pesoMaxArrastra())
+}
+
+test "Cantidad de pasajeros en distintos vagones"{
+	var vagon1 = new VagonPasajeros()
+	var vagon2 = new VagonPasajeros()
+	vagon1.largo(10)
+	vagon2.largo(10)
+	vagon1.anchoUtil(2)
+	vagon2.anchoUtil(3)
+	assert.equals(80,vagon1.cantPasajeros())
+	assert.equals(100,vagon2.cantPasajeros())
+}
+
+//test "Total de pasajeros que puede transportar una formación"{
+//	
+//}
+
+test "1. Cantidad de vagones livianos en una formación"{
+	var formacion = new Formacion()
+	var vagon1 = new VagonPasajeros()
+	var vagon2 = new VagonCarga()
+	vagon1.largo(10)
+	vagon1.anchoUtil(2)
+	vagon2.cargaMax(2000)
+	formacion.vagonesTotal().add(vagon1)
+	formacion.vagonesTotal().add(vagon2)
+	assert.equals(1,formacion.vagonesLivianos())
+}
+
+test "2. Velocidad máxima de una formación"{
+	var formacion = new Formacion()
+	var locomotora1 = new Locomotora()
+	var locomotora2 = new Locomotora()
+	locomotora1.velocidadMax(80)
+	locomotora2.velocidadMax(120)
+	formacion.locomotoras().add(locomotora1)
+	formacion.locomotoras().add(locomotora2)
+	assert.equals(80,formacion.velocidadMax())
+}
+
+test "3. Una formación es eficiente"{
+	var formacion = new Formacion()
+	var locomotora1 = new Locomotora()
+	var locomotora2 = new Locomotora()
+	locomotora1.peso(1000)
+	locomotora1.arrastreUtil(4000)
+	locomotora2.peso(500)
+	locomotora2.arrastreUtil(2000)
+	formacion.locomotoras().add(locomotora1)
+	formacion.locomotoras().add(locomotora2)
+	assert.that(formacion.eficiente())
+}
+
+
