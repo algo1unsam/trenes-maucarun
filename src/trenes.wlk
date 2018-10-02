@@ -59,7 +59,7 @@ class Formacion{
 		return vagonesTotal.sum{vagon=>vagon.cantPasajeros()}
 	}
 	method vagonMasPesado(){
-		return vagonesTotal.filter{vagon=>vagon.pesoMax()}
+		return vagonesTotal.max{vagon=>vagon.pesoMax()}
 	}
 	method vagonesLivianos(){
 		return vagonesTotal.count{vagon=>vagon.pesoMax()<2500}
@@ -87,9 +87,13 @@ class Formacion{
 class Deposito{
 	var property formaciones = []
 	var property locomotorasSueltas = []
+	var property conjuntoVagonesPesados = []
 	
 	method conjuntoVagones(){
-		return formaciones.filter{formacion=>formacion.vagonMasPesado()}
+//		return formaciones.filter{formacion=>formacion.vagonMasPesado()}
+//		conjuntoVagonesPesados.add{formaciones.filter{formacion=>formacion.vagonMasPesado()}}
+//		conjuntoVagonesPesados.add{formaciones.all{formacion=>formacion.vagonMasPesado()}}
+//		conjuntoVagonesPesados.add{formaciones.forEach{formacion=>formacion.vagonMasPesado()}}
 	}
 	method conductorExperimentado(){
 		return formaciones.any{formacion=>formacion.compleja()}
