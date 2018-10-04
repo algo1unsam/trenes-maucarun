@@ -147,29 +147,27 @@ test "6.1 Chequeo de que method VagonMasPesado() de Formacion funciona"{
 	assert.equals(vagon4,formacion2.vagonMasPesado())
 }
 
-test "PROVISORIA 6.2 Prueba con una formacion"{
+test "6.2 Dado un depósito, obtener el conjunto formado por el vagón más pesado de cada formación"{
 	var deposito = new Deposito()
 	var formacion1 = new Formacion()
-//	var formacion2 = new Formacion()
+	var formacion2 = new Formacion()
 	var vagon1 = new VagonPasajeros()
 	var vagon2 = new VagonCarga()
-//	var vagon3 = new VagonPasajeros()
-//	var vagon4 = new VagonCarga()
+	var vagon3 = new VagonPasajeros()
+	var vagon4 = new VagonCarga()
 	vagon1.largo(5)
 	vagon1.anchoUtil(2)
 	vagon2.cargaMax(1000)
-//	vagon3.largo(3)
-//	vagon3.anchoUtil(3)
-//	vagon4.cargaMax(10000)
+	vagon3.largo(3)
+	vagon3.anchoUtil(3)
+	vagon4.cargaMax(10000)
 	formacion1.vagonesTotal().add(vagon1)
 	formacion1.vagonesTotal().add(vagon2)
-//	formacion2.vagonesTotal().add(vagon3)
-//	formacion2.vagonesTotal().add(vagon4)
+	formacion2.vagonesTotal().add(vagon3)
+	formacion2.vagonesTotal().add(vagon4)
 	deposito.formaciones().add(formacion1)
-//	deposito.formaciones().add(formacion2)
-	deposito.conjuntoVagones()
-//	assert.that(deposito.conjuntoVagonesPesados().contains(vagon1))
-//	assert.equals(vagon1,deposito.conjuntoVagones())	
+	deposito.formaciones().add(formacion2)
+	assert.equals([vagon1,vagon4],deposito.conjuntoVagones())	
 }
 
 test "7. Un depósito necesita un conductor experimentado porque formacion1 es compleja (peso total>10000)"{

@@ -3,12 +3,7 @@ class VagonPasajeros{
 	var property anchoUtil = 0
 		
 	method cantPasajeros(){
-		if (anchoUtil <= 2.5) {
-			return largo*8
-			}
-		else{
-			return largo*10
-		}
+		return largo * (if (anchoUtil <= 2.5) 8 else 10)
 	}
 	method pesoMax(){
 		return self.cantPasajeros()*80
@@ -52,9 +47,7 @@ class Formacion{
 	method pesoTotal(){
 		return self.pesoMaxArrastraTotal() + self.pesoMaxTotalVagones()
 	}
-	method cantUnidades(){
-		return locomotoras.size() + vagonesTotal.size()
-	}
+	method cantUnidades() = locomotoras.size() + vagonesTotal.size()
 	method totalPasajeros(){
 		return vagonesTotal.sum{vagon=>vagon.cantPasajeros()}
 	}
@@ -87,19 +80,18 @@ class Formacion{
 class Deposito{
 	var property formaciones = []
 	var property locomotorasSueltas = []
-	var property conjuntoVagonesPesados = []
 	
 	method conjuntoVagones(){
-//		return formaciones.filter{formacion=>formacion.vagonMasPesado()}
-//		conjuntoVagonesPesados.add{formaciones.filter{formacion=>formacion.vagonMasPesado()}}
-//		conjuntoVagonesPesados.add{formaciones.all{formacion=>formacion.vagonMasPesado()}}
-//		conjuntoVagonesPesados.add{formaciones.forEach{formacion=>formacion.vagonMasPesado()}}
+		return formaciones.map{formacion=>formacion.vagonMasPesado()}
 	}
 	method conductorExperimentado(){
 		return formaciones.any{formacion=>formacion.compleja()}
 	}
 	method agregarLocomotoraEnFormacion(formacion){
 		if (!formacion.puedeMoverse())
-			formacion.locomotoras().add(locomotorasSueltas.find{locomotora=>locomotora.arrastreUtil()>=formacion.empuje()})
+			formacion.locomotoras().add(self.buscarLocomotoraSueltaApta(formacion))
 	}	
+	method buscarLocomotoraSueltaApta(formacion){
+		return locomotorasSueltas.find{locomotora=>locomotora.arrastreUtil()>=formacion.empuje()}
+	}
 }
