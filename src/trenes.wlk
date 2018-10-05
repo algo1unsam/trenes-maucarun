@@ -1,6 +1,7 @@
 class VagonPasajeros{
 	var property largo = 0 
 	var property anchoUtil = 0
+	var property cantBanos = 0
 		
 	method cantPasajeros(){
 		return largo * (if (anchoUtil <= 2.5) 8 else 10)
@@ -13,11 +14,10 @@ class VagonPasajeros{
 class VagonCarga{
 	var property cargaMax = 0
 	
+	method cantPasajeros() = 0
+	method cantBanos() = 0
 	method pesoMax(){
 		return cargaMax+160
-	}
-	method cantPasajeros(){
-		return 0
 	}
 }
 
@@ -74,6 +74,11 @@ class Formacion{
 	}
 	method compleja(){
 		return (self.cantUnidades()>20) or (self.pesoTotal()>10000)
+	}
+	method bienArmada(formacion){
+		if (formacion.puedeMoverse())
+			
+		
 	}
 }
 
