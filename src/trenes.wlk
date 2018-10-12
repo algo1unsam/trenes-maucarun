@@ -1,7 +1,7 @@
 class VagonPasajeros{
 	var property largo = 0 
 	var property anchoUtil = 0
-	var property cantBanos = 0
+	var property cantBanios = 0
 		
 	method cantPasajeros(){
 		return largo * (if (anchoUtil <= 2.5) 8 else 10)
@@ -15,7 +15,7 @@ class VagonCarga{
 	var property cargaMax = 0
 	
 	method cantPasajeros() = 0
-	method cantBanos() = 0
+	method cantBanios() = 0
 	method pesoMax(){
 		return cargaMax+160
 	}
@@ -75,11 +75,16 @@ class Formacion{
 	method compleja(){
 		return (self.cantUnidades()>20) or (self.pesoTotal()>10000)
 	}
-	method bienArmada(formacion){
-		if (formacion.puedeMoverse())
-			
-		
-	}
+}
+
+class FormacionCortaDistancia inherits Formacion{
+	method bienArmada(formacion) = formacion.puedeMoverse() && !formacion.compleja()
+}
+
+class FormacionLargaDistancia inherits Formacion{
+	method bienArmada(formacion) = formacion.puedeMoverse() && formacion.baniosSuficientes(formacion)
+	method baniosSuficientes(formacion) = formacion.totalPasajeros()/50 <= formacion.cantBanios(formacion)
+	method cantBanios(formacion) = formacion.vagonesTotal().sum{vagon=>vagon.cantBanios()}
 }
 
 class Deposito{

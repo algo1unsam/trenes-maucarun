@@ -1,0 +1,30 @@
+import trenes.*
+
+describe "Conjunto de tests de Segunda Parte de Trenes"{
+	var formacionLarga = new FormacionLargaDistancia()
+	var formacionCorta = new FormacionCortaDistancia()
+	var locomotora1 = new Locomotora(peso=500, arrastreUtil=5000)
+	var vagon1 = new VagonPasajeros(largo=2, anchoUtil=2, cantBanios=1)
+	var vagon2 = new VagonPasajeros(largo=3, anchoUtil=3, cantBanios=1)
+	var vagon3 = new VagonCarga(cargaMax=500)
+
+fixture {
+	formacionLarga.vagonesTotal().add(vagon1)
+	formacionLarga.vagonesTotal().add(vagon2)
+	formacionLarga.vagonesTotal().add(vagon3)
+	formacionLarga.locomotoras().add(locomotora1)
+	formacionCorta.vagonesTotal().add(vagon1)
+	formacionCorta.vagonesTotal().add(vagon2)
+	formacionCorta.vagonesTotal().add(vagon3)
+	formacionCorta.locomotoras().add(locomotora1)
+}
+
+test "9.1. Formación de corta distancia bien armada: puede moverse y no es compleja(peso total<10000)"{
+	assert.notThat(formacionCorta.compleja())
+	assert.that(formacionCorta.bienArmada(formacionCorta))
+}
+
+test "9.2. Formación de larga distancia bien armada: puede moverse y tiene uno o más baños cada 50 pasajeros"{
+	assert.that(formacionLarga.bienArmada(formacionLarga))
+}
+}
