@@ -1,7 +1,7 @@
 class VagonPasajeros{
-	var property largo = 0 
-	var property anchoUtil = 0
-	var property cantBanios = 0
+	const property largo = 0 
+	const property anchoUtil = 0
+	const property cantBanios = 0
 		
 	method cantPasajeros(){
 		return largo * (if (anchoUtil <= 2.5) 8 else 10)
@@ -12,7 +12,7 @@ class VagonPasajeros{
 }
 
 class VagonCarga{
-	var property cargaMax = 0
+	const property cargaMax = 0
 	
 	method cantPasajeros() = 0
 	method cantBanios() = 0
@@ -22,9 +22,9 @@ class VagonCarga{
 }
 
 class Locomotora{
-	var property peso = 0
-	var property arrastreUtil = 0
-	var property velocidadMax = 0
+	const property peso = 0
+	const property arrastreUtil = 0
+	const property velocidadMax = 0
 	
 	method pesoMaxArrastra(){
 		return peso + arrastreUtil
@@ -78,13 +78,25 @@ class Formacion{
 }
 
 class FormacionCortaDistancia inherits Formacion{
-	method bienArmada(formacion) = formacion.puedeMoverse() && !formacion.compleja()
+	method bienArmada() = self.puedeMoverse() && !self.compleja()
+	method velocidadMaxFormacion() = self.velocidadMax().min(60)
 }
 
 class FormacionLargaDistancia inherits Formacion{
-	method bienArmada(formacion) = formacion.puedeMoverse() && formacion.baniosSuficientes(formacion)
-	method baniosSuficientes(formacion) = formacion.totalPasajeros()/50 <= formacion.cantBanios(formacion)
-	method cantBanios(formacion) = formacion.vagonesTotal().sum{vagon=>vagon.cantBanios()}
+	const property origen = null
+	const property destino = null
+	
+	method bienArmada() = self.puedeMoverse() && self.baniosSuficientes()
+	method baniosSuficientes() = self.totalPasajeros()/50 <= self.cantBanios()
+	method cantBanios() = self.vagonesTotal().sum{vagon=>vagon.cantBanios()}
+	method velocidadMaxFormacion() = self.velocidadMax().min(self.velocidadLimite())
+	method velocidadLimite(){
+		return (if (origen.grande() and destino.grande()) 200 else 150)
+	}
+}
+
+class Ciudad{
+	const property grande = false
 }
 
 class Deposito{
