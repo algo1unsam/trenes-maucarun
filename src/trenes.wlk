@@ -24,7 +24,7 @@ class VagonCarga{
 class Locomotora{
 	const property peso = 0
 	const property arrastreUtil = 0
-	const property velocidadMax = 0
+	var property velocidadMax = 0
 	
 	method pesoMaxArrastra(){
 		return peso + arrastreUtil
@@ -83,8 +83,8 @@ class FormacionCortaDistancia inherits Formacion{
 }
 
 class FormacionLargaDistancia inherits Formacion{
-	const property origen = null
-	const property destino = null
+	var property origen = null
+	var property destino = null
 	
 	method bienArmada() = self.puedeMoverse() && self.baniosSuficientes()
 	method baniosSuficientes() = self.totalPasajeros()/50 <= self.cantBanios()

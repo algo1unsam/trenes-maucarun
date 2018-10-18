@@ -1,50 +1,62 @@
 import trenes.*
 
-describe "Conjunto de tests de Segunda Parte de Trenes"{
+describe "Conjunto de tests de Segunda Parte de Trenes" {
+
 	var formacionLarga = new FormacionLargaDistancia()
 	var formacionCorta = new FormacionCortaDistancia()
-	var locomotora1 = new Locomotora(peso=500, arrastreUtil=5000, velocidadMax=80)
-	var locomotora2 = new Locomotora(velocidadMax=120)
-	var vagon1 = new VagonPasajeros(largo=2, anchoUtil=2, cantBanios=1)
-	var vagon2 = new VagonPasajeros(largo=3, anchoUtil=3, cantBanios=1)
-	var vagon3 = new VagonCarga(cargaMax=500)
+	var locomotora1 = new Locomotora(peso = 500, arrastreUtil = 5000, velocidadMax = 80)
+	var locomotora2 = new Locomotora(velocidadMax = 120)
+	var vagon1 = new VagonPasajeros(largo = 2, anchoUtil = 2, cantBanios = 1)
+	var vagon2 = new VagonPasajeros(largo = 3, anchoUtil = 3, cantBanios = 1)
+	var vagon3 = new VagonCarga(cargaMax = 500)
 
-fixture {
-	formacionLarga.vagonesTotal().add(vagon1)
-	formacionLarga.vagonesTotal().add(vagon2)
-	formacionLarga.vagonesTotal().add(vagon3)
-	formacionLarga.locomotoras().add(locomotora1)
-	formacionLarga.locomotoras().add(locomotora2)
-	formacionCorta.vagonesTotal().add(vagon1)
-	formacionCorta.vagonesTotal().add(vagon2)
-	formacionCorta.vagonesTotal().add(vagon3)
-	formacionCorta.locomotoras().add(locomotora1)
-	formacionCorta.locomotoras().add(locomotora2)
+	fixture {
+		formacionLarga.vagonesTotal().add(vagon1)
+		formacionLarga.vagonesTotal().add(vagon2)
+		formacionLarga.vagonesTotal().add(vagon3)
+		formacionLarga.locomotoras().add(locomotora1)
+		formacionLarga.locomotoras().add(locomotora2)
+		formacionCorta.vagonesTotal().add(vagon1)
+		formacionCorta.vagonesTotal().add(vagon2)
+		formacionCorta.vagonesTotal().add(vagon3)
+		formacionCorta.locomotoras().add(locomotora1)
+		formacionCorta.locomotoras().add(locomotora2)
+	}
+
+	test "9.1. Formación de corta distancia bien armada: puede moverse y no es compleja (peso total<10000)" {
+		assert.notThat(formacionCorta.compleja())
+		assert.that(formacionCorta.bienArmada())
+	}
+
+	test "9.2. Formación de larga distancia bien armada: puede moverse y tiene uno o más baños cada 50 pasajeros" {
+		assert.that(formacionLarga.bienArmada())
+	}
+
+	test "10.1. Velocidad máxima de una formacion corta" {
+		assert.equals(80, formacionCorta.velocidadMax())
+		assert.equals(60, formacionCorta.velocidadMaxFormacion())
+	}
+
+	test "10.2. Velocidad máxima de una formacion larga, ambas ciudades son grandes" {
+		locomotora1.velocidadMax(300)
+		locomotora2.velocidadMax(400)
+		formacionLarga.origen(new Ciudad(grande = true))
+		formacionLarga.destino(new Ciudad(grande = true))
+		assert.equals(300, formacionLarga.velocidadMax())
+		assert.equals(200, formacionLarga.velocidadMaxFormacion())
+	}
+
+	test "10.3. Velocidad máxima de una formacion larga, no son grandes ambas ciudades" {
+		locomotora1.velocidadMax(300)
+		locomotora2.velocidadMax(400)
+		formacionLarga.origen(new Ciudad(grande = false))
+		formacionLarga.destino(new Ciudad(grande = true))
+		assert.equals(300, formacionLarga.velocidadMax())
+		assert.equals(150, formacionLarga.velocidadMaxFormacion())
+	}
+
+//	test "11." {
+//	}
+
 }
 
-test "9.1. Formación de corta distancia bien armada: puede moverse y no es compleja (peso total<10000)"{
-	assert.notThat(formacionCorta.compleja())
-	assert.that(formacionCorta.bienArmada())
-}
-
-test "9.2. Formación de larga distancia bien armada: puede moverse y tiene uno o más baños cada 50 pasajeros"{
-	assert.that(formacionLarga.bienArmada())
-}
-
-test "10.1. Velocidad máxima de una formacion corta"{
-	assert.equals(80,formacionCorta.velocidadMax())
-	assert.equals(60,formacionCorta.velocidadMaxFormacion())
-}
-
-test "10.2. Velocidad máxima de una formacion larga, ambas ciudades son grandes"{
-//	formacionLarga.origen() = new Ciudad(grande=true)
-//	formacionLarga.destino() = new Ciudad(grande=true)
-	assert.equals(80,formacionLarga.velocidadMax())
-	assert.equals(200,formacionLarga.velocidadMaxFormacion())
-}
-
-//test "10.3. Velocidad máxima de una formacion larga, ambas ciudades no son grandes"{
-//	assert.equals(80,formacionLarga.velocidadMax())
-//	assert.equals(150,formacionLarga.velocidadMaxFormacion())
-//}
-}
