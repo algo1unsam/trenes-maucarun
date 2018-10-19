@@ -1,7 +1,7 @@
 import trenes.*
 
 describe "Conjunto de tests de Segunda Parte de Trenes" {
-
+	
 	var formacionLarga = new FormacionLargaDistancia()
 	var formacionCorta = new FormacionCortaDistancia()
 	var locomotora1 = new Locomotora(peso = 500, arrastreUtil = 5000, velocidadMax = 80)
@@ -55,8 +55,20 @@ describe "Conjunto de tests de Segunda Parte de Trenes" {
 		assert.equals(150, formacionLarga.velocidadMaxFormacion())
 	}
 
-//	test "11." {
-//	}
+	test "11. Formacion de alta velocidad bien armada" {
+		var formacionAltaVelocidad = new FormacionAltaVelocidad()
+		locomotora1.velocidadMax(500)
+		locomotora2.velocidadMax(600)
+		formacionAltaVelocidad.origen(new Ciudad(grande = true))
+		formacionAltaVelocidad.destino(new Ciudad(grande = true))
+		formacionAltaVelocidad.vagonesTotal().add(vagon1)
+		formacionAltaVelocidad.vagonesTotal().add(vagon2)
+		formacionAltaVelocidad.vagonesTotal().add(vagon3)
+		formacionAltaVelocidad.locomotoras().add(locomotora1)
+		formacionAltaVelocidad.locomotoras().add(locomotora2)
+		assert.equals(500, formacionAltaVelocidad.velocidadMax())
+		assert.equals(400, formacionAltaVelocidad.velocidadMaxFormacion())
+		assert.that(formacionAltaVelocidad.bienArmada())
+	}
 
 }
-

@@ -1,6 +1,6 @@
 class VagonPasajeros{
-	const property largo = 0 
-	const property anchoUtil = 0
+	var property largo = 0 
+	var property anchoUtil = 0
 	const property cantBanios = 0
 		
 	method cantPasajeros(){
@@ -12,7 +12,7 @@ class VagonPasajeros{
 }
 
 class VagonCarga{
-	const property cargaMax = 0
+	var property cargaMax = 0
 	
 	method cantPasajeros() = 0
 	method cantBanios() = 0
@@ -22,8 +22,8 @@ class VagonCarga{
 }
 
 class Locomotora{
-	const property peso = 0
-	const property arrastreUtil = 0
+	var property peso = 0
+	var property arrastreUtil = 0
 	var property velocidadMax = 0
 	
 	method pesoMaxArrastra(){
@@ -77,12 +77,12 @@ class Formacion{
 	}
 }
 
-class FormacionCortaDistancia inherits Formacion{
+class FormacionCortaDistancia inherits Formacion {
 	method bienArmada() = self.puedeMoverse() && !self.compleja()
 	method velocidadMaxFormacion() = self.velocidadMax().min(60)
 }
 
-class FormacionLargaDistancia inherits Formacion{
+class FormacionLargaDistancia inherits Formacion {
 	var property origen = null
 	var property destino = null
 	
@@ -95,7 +95,15 @@ class FormacionLargaDistancia inherits Formacion{
 	}
 }
 
-class Ciudad{
+class FormacionAltaVelocidad inherits FormacionLargaDistancia {
+	override method velocidadLimite(){
+		return (if (origen.grande() and destino.grande()) 400 else 150)
+	}
+	override method bienArmada() = self.velocidadMaxFormacion()>=250 && self.todosVagonesLivianos()
+	method todosVagonesLivianos() = vagonesTotal.all{vagon=>vagon.pesoMax()<2500}
+}
+
+class Ciudad {
 	const property grande = false
 }
 
